@@ -1,0 +1,26 @@
+{
+  "name": "ecommerce-qa-automation",
+  "version": "1.0.0",
+  "description": "QA Automation portfolio project covering REST API testing with Postman and Python, UI automation with Playwright, Pytest and CI/CD using GitHub Actions.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "newman run \"api-tests/E-Commerce API Tests.postman_collection.json\" -e \"api-tests/DummyJSON - QA.postman_environment.json\" --env-var \"base_url=https://dummyjson.com\" --env-var \"product_id=1\" --env-var \"user_id=1\" --env-var \"cart_id=1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oskarhermanowski/ecommerce-qa-automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oskarhermanowski/ecommerce-qa-automation/issues"
+  },
+  "homepage": "https://github.com/oskarhermanowski/ecommerce-qa-automation#readme",
+  "devDependencies": {
+    "newman": "^6.2.2"
+  }
+}
