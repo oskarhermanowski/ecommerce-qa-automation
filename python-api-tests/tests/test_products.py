@@ -3,8 +3,8 @@ import requests
 
 pytestmark = pytest.mark.regression
 
-def test_get_all_products(base_url):
-    response = requests.get(f"{base_url}/products")
+def test_get_all_products(api_base_url):
+    response = requests.get(f"{api_base_url}/products")
 
     assert response.status_code == 200
 
@@ -28,10 +28,10 @@ def test_get_all_products(base_url):
 
     assert response.elapsed.total_seconds() < 3
 
-def test_get_product_by_id(base_url):
+def test_get_product_by_id(api_base_url):
     product_id = 1
 
-    response = requests.get(f"{base_url}/products/{product_id}")
+    response = requests.get(f"{api_base_url}/products/{product_id}")
 
     assert response.status_code == 200
 
@@ -49,15 +49,15 @@ def test_get_product_by_id(base_url):
 
     assert response.elapsed.total_seconds() < 3
 
-def test_get_nonexistent_product(base_url):
+def test_get_nonexistent_product(api_base_url):
     product_id = 999999
 
-    response = requests.get(f"{base_url}/products/{product_id}")
+    response = requests.get(f"{api_base_url}/products/{product_id}")
 
     assert response.status_code == 404
     assert response.elapsed.total_seconds() < 3
 
-def test_create_product(base_url):
+def test_create_product(api_base_url):
     payload = {
         "title": "QA Test Laptop",
         "description": "Product created by automated API test",
@@ -67,7 +67,7 @@ def test_create_product(base_url):
     }
 
     response = requests.post(
-        f"{base_url}/products/add",
+        f"{api_base_url}/products/add",
         json=payload
     )
 
@@ -84,7 +84,7 @@ def test_create_product(base_url):
 
     assert response.elapsed.total_seconds() < 3
 
-def test_update_product(base_url):
+def test_update_product(api_base_url):
     product_id = 1
 
     payload = {
@@ -93,7 +93,7 @@ def test_update_product(base_url):
     }
 
     response = requests.put(
-        f"{base_url}/products/{product_id}",
+        f"{api_base_url}/products/{product_id}",
         json=payload
     )
 
@@ -107,11 +107,11 @@ def test_update_product(base_url):
 
     assert response.elapsed.total_seconds() < 3
 
-def test_delete_product(base_url):
+def test_delete_product(api_base_url):
     product_id = 1
 
     response = requests.delete(
-        f"{base_url}/products/{product_id}"
+        f"{api_base_url}/products/{product_id}"
     )
 
     assert response.status_code == 200
@@ -124,11 +124,11 @@ def test_delete_product(base_url):
 
     assert response.elapsed.total_seconds() < 3
 
-def test_search_products(base_url):
+def test_search_products(api_base_url):
     search_query = "phone"
 
     response = requests.get(
-        f"{base_url}/products/search",
+        f"{api_base_url}/products/search",
         params={"q": search_query}
     )
 
@@ -143,9 +143,9 @@ def test_search_products(base_url):
     assert response.elapsed.total_seconds() < 3
 
 @pytest.mark.parametrize("product_id", [1, 2, 3, 10, 20])
-def test_get_multiple_products(base_url, product_id):
+def test_get_multiple_products(api_base_url, product_id):
     response = requests.get(
-        f"{base_url}/products/{product_id}"
+        f"{api_base_url}/products/{product_id}"
     )
 
     assert response.status_code == 200

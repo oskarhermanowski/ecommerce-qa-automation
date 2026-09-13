@@ -41,9 +41,15 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r python-api-tests/requirements.txt
 
+      - name: Install Playwright browser
+        run: playwright install --with-deps chromium
+
       - name: Run Python API tests
         working-directory: python-api-tests
         run: pytest
+
+      - name: Run Playwright UI tests
+        run: pytest ui-tests/tests -v
 
       - name: Upload Pytest HTML report
         uses: actions/upload-artifact@v4

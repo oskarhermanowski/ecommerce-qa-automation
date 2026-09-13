@@ -2,5 +2,5 @@ import pytest
 
 
 @pytest.fixture
-def base_url():
+def api_base_url():
     return "https://dummyjson.com"

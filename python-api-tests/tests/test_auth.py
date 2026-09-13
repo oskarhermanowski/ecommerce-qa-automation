@@ -2,14 +2,14 @@ import pytest
 import requests
 
 @pytest.mark.smoke
-def test_login_successful(base_url):
+def test_login_successful(api_base_url):
     payload = {
         "username": "emilys",
         "password": "emilyspass"
     }
 
     response = requests.post(
-        f"{base_url}/auth/login",
+        f"{api_base_url}/auth/login",
         json=payload
     )
 
@@ -23,14 +23,14 @@ def test_login_successful(base_url):
     assert isinstance(data["id"], int)
     assert response.elapsed.total_seconds() < 3
 
-def test_login_invalid_credentials(base_url):
+def test_login_invalid_credentials(api_base_url):
     payload = {
         "username": "emilys",
         "password": "wrongpassword"
     }
 
     response = requests.post(
-        f"{base_url}/auth/login",
+        f"{api_base_url}/auth/login",
         json=payload
     )
 
@@ -43,13 +43,13 @@ def test_login_invalid_credentials(base_url):
     assert "accessToken" not in data
     assert response.elapsed.total_seconds() < 3
 
-def test_login_missing_password(base_url):
+def test_login_missing_password(api_base_url):
     payload = {
         "username": "emilys"
     }
 
     response = requests.post(
-        f"{base_url}/auth/login",
+        f"{api_base_url}/auth/login",
         json=payload
     )
 
@@ -71,14 +71,14 @@ def test_login_missing_password(base_url):
         ("", "", 400),
     ]
 )
-def test_login_various_invalid_data(base_url, username, password, expected_status):
+def test_login_various_invalid_data(api_base_url, username, password, expected_status):
     payload = {
         "username": username,
         "password": password
     }
 
     response = requests.post(
-        f"{base_url}/auth/login",
+        f"{api_base_url}/auth/login",
         json=payload
     )
 

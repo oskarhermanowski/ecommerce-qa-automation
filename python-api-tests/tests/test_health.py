@@ -2,8 +2,8 @@ import pytest
 import requests
 
 @pytest.mark.smoke
-def test_api_health_check(base_url):
-    response = requests.get(f"{base_url}/test")
+def test_api_health_check(api_base_url):
+    response = requests.get(f"{api_base_url}/test")
 
     assert response.status_code == 200
 
