@@ -15,9 +15,15 @@ class InventoryPage:
         self.backpack_add_button = page.locator(
             "#add-to-cart-sauce-labs-backpack"
         )
+        self.bike_light_add_button = page.locator(
+            "#add-to-cart-sauce-labs-bike-light"
+        )
 
     def add_backpack_to_cart(self):
         self.backpack_add_button.click()
+
+    def add_bike_light_to_cart(self):
+        self.bike_light_add_button.click()
 
     def open_cart(self):
         self.cart.click()
