@@ -45,7 +45,7 @@ jobs:
         run: playwright install --with-deps chromium
 
       - name: Run Python API tests
-        run: pytest python-api/tests=tests -v --html=reports/api-report.html --self-contained-html
+        run: pytest python-api-tests/tests -v --html=reports/api-report.html --self-contained-html
 
       - name: Run Playwright UI tests
         run: pytest ui-tests/tests -v --html=repots/ui-report.html --self-contained-html
