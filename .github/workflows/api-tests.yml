@@ -51,6 +51,14 @@ jobs:
       - name: Run Playwright UI tests
         run: pytest ui-tests/tests -v
 
+      - name: Upload Playwright failure screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-failure-screenshots
+          path: ui-tests/screenshots/
+          if-no-files-found: ignore
+
       - name: Upload Pytest HTML report
         uses: actions/upload-artifact@v4
         if: always()
