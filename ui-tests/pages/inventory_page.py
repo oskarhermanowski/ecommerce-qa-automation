@@ -8,6 +8,10 @@ class InventoryPage:
         self.cart = page.locator('[data-test="shopping-cart-link"]')
         self.cart_badge = page.locator(".shopping_cart_badge")
 
+        self.sort_dropdown = page.locator(".product_sort_container")
+        self.product_prices = page.locator(".inventory_item_price")
+        self.product_names = page.locator(".inventory_item_name")
+
         self.backpack_add_button = page.locator(
             "#add-to-cart-sauce-labs-backpack"
         )
@@ -17,3 +21,17 @@ class InventoryPage:
 
     def open_cart(self):
         self.cart.click()
+
+    def sort_products(self, value):
+        self.sort_dropdown.select_option(value)
+
+    def get_product_prices(self):
+        prices = self.product_prices.all_text_contents()
+
+        return [
+            float(price.replace("$", ""))
+            for price in prices
+        ]
+
+    def get_product_names(self):
+        return self.product_names.all_text_contents()
