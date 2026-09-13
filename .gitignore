@@ -223,3 +223,15 @@ npm-debug.log*
 
 # Pytest HTML reports
 python-api-tests/report.html
+
+# Generated test reports
+reports/
+report.html
+
+# Playwright failure screenshots
+ui-tests/screenshots/
+
+# Python cache
+__pycache__/
+.pytest_cache/
+*.pyc
