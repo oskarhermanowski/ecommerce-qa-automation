@@ -20,7 +20,7 @@ def test_complete_checkout(page: Page):
 
     # Open cart
     inventory_page.open_cart()
-
+    expect(page).to_have_url("https://www.saucedemo.com/cart.html")
     expect(cart_page.product_name).to_have_text("Sauce Labs Backpack")
 
     # Checkout

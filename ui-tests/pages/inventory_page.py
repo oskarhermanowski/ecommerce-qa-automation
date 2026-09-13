@@ -5,7 +5,7 @@ class InventoryPage:
         self.page = page
 
         self.page_title = page.locator(".title")
-        self.cart = page.locator(".shopping_cart_link")
+        self.cart = page.locator('[data-test="shopping-cart-link"]')
         self.cart_badge = page.locator(".shopping_cart_badge")
 
         self.backpack_add_button = page.locator(

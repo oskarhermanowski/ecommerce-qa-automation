@@ -6,8 +6,14 @@ class CartPage:
         self.page = page
 
         self.cart_item = page.locator(".cart_item")
-        self.product_name = page.locator(".inventory_item_name")
-        self.checkout_button = page.locator("#checkout")
+
+        self.product_name = (
+            page.locator(".cart_item")
+            .filter(has_text="Sauce Labs Backpack")
+            .locator(".inventory_item_name")
+        )
+
+        self.checkout_button = page.locator('[data-test="checkout"]')
 
     def checkout(self):
         self.checkout_button.click()
