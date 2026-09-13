@@ -45,11 +45,10 @@ jobs:
         run: playwright install --with-deps chromium
 
       - name: Run Python API tests
-        working-directory: python-api-tests
-        run: pytest
+        run: pytest python-api-tests=tests -v --html=reports/api-report.html --self-contained-html
 
       - name: Run Playwright UI tests
-        run: pytest ui-tests/tests -v
+        run: pytest ui-tests/tests -v --html=repots/ui-report.html --self-contained-html
 
       - name: Upload Playwright failure screenshots
         uses: actions/upload-artifact@v4
@@ -59,9 +58,16 @@ jobs:
           path: ui-tests/screenshots/
           if-no-files-found: ignore
 
-      - name: Upload Pytest HTML report
+      - name: Upload API HTML report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: pytest-html-report
-          path: python-api-tests/report.html
+          name: api-test-report
+          path: reports/api-report.html
+
+      - name: Upload UI HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-test-report
+          path: reports/ui-report.html
