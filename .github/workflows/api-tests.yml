@@ -44,3 +44,10 @@ jobs:
       - name: Run Python API tests
         working-directory: python-api-tests
         run: pytest
+
+      - name: Upload Pytest HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pytest-html-report
+          path: python-api-tests/report.html
