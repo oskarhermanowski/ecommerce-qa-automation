@@ -2,13 +2,13 @@
 
 [![QA Automation Tests](https://github.com/oskarhermanowski/ecommerce-qa-automation/actions/workflows/api-tests.yml/badge.svg)](https://github.com/oskarhermanowski/ecommerce-qa-automation/actions/workflows/api-tests.yml)
 
-End-to-end QA automation portfolio project demonstrating practical test automation skills across **API and UI testing**.
+End-to-end **QA Automation portfolio project** demonstrating practical test automation skills across **API and UI testing**.
 
 The project combines **Python, Pytest, Requests, Playwright, Postman, Newman and GitHub Actions** to test REST API endpoints and real e-commerce user flows.
 
 API tests are based on the public [DummyJSON API](https://dummyjson.com/), while UI tests automate the [SauceDemo](https://www.saucedemo.com/) e-commerce application.
 
-The project includes automated **smoke and regression test suites**, Page Object Model architecture, HTML reporting, automatic failure screenshots and a CI pipeline executed with GitHub Actions.
+The project includes automated **smoke and regression test suites**, Page Object Model architecture, parameterized tests, HTML reporting, automatic failure screenshots and a CI pipeline executed with GitHub Actions.
 
 ---
 
@@ -23,116 +23,176 @@ The project includes automated **smoke and regression test suites**, Page Object
 - Newman
 - GitHub Actions
 - pytest-html
-- Git / GitHub
+- Git
+- GitHub
 
 ---
 
-## 🧪 API Test Coverage
+## 🧪 API Test Automation
 
-API testing is implemented using both **Postman/Newman** and **Python with Requests + Pytest**.
+API automation is implemented using **Python, Requests and Pytest**.
+
+The automated API suite currently contains **19 tests**.
 
 ### Authentication
 
+Tests cover:
+
 - Successful login
 - Invalid credentials
-- Missing credentials
+- Missing required credentials
 - Multiple invalid credential combinations
 - Access token validation
 - Refresh token validation
+- HTTP status code validation
+- Response body validation
 - Response time validation
 
 ### Products
 
-- Get all products
+Tests cover:
+
 - Get product by ID
 - Get nonexistent product
 - Create product
 - Update product
 - Delete product
 - Search products
-- Parameterized product tests
-- Response schema/type validation
+- Parameterized product ID tests
+- Response schema and data type validation
+- HTTP status code validation
 - Response time validation
 
 ### API Health
 
-- API availability check
+Tests cover:
+
+- API availability
 - HTTP status validation
+- Basic response validation
 - Response time validation
 
-The Python API automation suite currently contains **19 automated tests**.
+### Parameterized API Testing
+
+Pytest parameterization is used to execute the same test logic against multiple datasets.
+
+Example scenarios include retrieving multiple products using different product IDs.
+
+This reduces duplicated test code and improves test coverage.
 
 ---
 
-## 🌐 UI Test Coverage
+## 🌐 UI Test Automation
 
-The UI automation framework is built using **Playwright, Python and Pytest** and tests the SauceDemo e-commerce application.
+UI automation is implemented using **Playwright with Python and Pytest**.
 
-### Homepage
+The automated UI suite currently contains **22 tests** covering important SauceDemo user flows.
 
-- Application availability
-- Page title validation
+### 🔐 Login
 
-### Login
+Tests cover:
 
 - Successful login
 - Invalid password
 - Locked-out user
-- Missing username
-- Missing password
-- Empty credentials
-- Parameterized validation tests
-- URL validation after successful login
+- Required username validation
+- Required password validation
+- Login error message validation
 
-### Inventory
+### 📦 Inventory
 
-- Inventory page validation
-- Add product to cart
-- Product sorting by price: low to high
-- Product sorting by price: high to low
-- Product sorting by name: A to Z
-- Product sorting by name: Z to A
+Tests cover:
 
-### Cart
+- Inventory page verification
+- Product visibility
+- Adding products to the cart
+- Product sorting by name A → Z
+- Product sorting by name Z → A
+- Product sorting by price
+- Inventory interactions
 
-- Product visibility in cart
+### 🛒 Cart
+
+Tests cover:
+
+- Adding products to the cart
+- Adding multiple products
+- Removing products from the cart
+- Product visibility in the cart
 - Product name validation
-- Add multiple products to cart
-- Remove product from cart
-- Continue shopping from cart
-- Cart badge validation
+- Continuing shopping from the cart
+- Cart state verification
 
-### Checkout
+### 💳 Checkout
+
+Tests cover:
 
 - Complete checkout flow
-- Customer information validation
-- Missing first name validation
-- Missing last name validation
-- Missing postal code validation
+- Customer information
+- Required field validation
+- First name validation
+- Last name validation
+- Postal code validation
 - Order completion verification
 
-The UI automation suite currently contains **22 automated Pytest test cases**.
+### 🏠 Homepage
+
+Tests cover:
+
+- Application availability
+- Basic page validation
+- Initial application state
+
+---
+
+## 🔄 End-to-End Test Scenarios
+
+The project includes automated user journeys that simulate real e-commerce behavior.
+
+Example workflow:
+
+```text
+Login
+  ↓
+Browse products
+  ↓
+Add product to cart
+  ↓
+Open cart
+  ↓
+Proceed to checkout
+  ↓
+Enter customer information
+  ↓
+Complete order
+  ↓
+Verify successful purchase
+```
+
+These scenarios validate interactions between multiple application pages instead of testing individual elements in isolation.
 
 ---
 
 ## 🧠 Testing Techniques
 
-The project demonstrates practical usage of:
+The project demonstrates practical use of:
 
 - Positive testing
 - Negative testing
 - Functional testing
 - API testing
 - UI testing
+- End-to-end testing
 - Smoke testing
 - Regression testing
 - Parameterized testing
-- End-to-end testing
+- Data-driven testing
 - HTTP status code validation
 - Response body validation
 - Data type validation
 - Response time assertions
-- UI state validation
+- Form validation testing
+- Error message validation
 - Failure diagnostics
 
 ---
@@ -161,7 +221,7 @@ ui-tests/
     └── test_checkout.py
 ```
 
-This approach improves:
+Using Page Object Model improves:
 
 - Code maintainability
 - Reusability
@@ -190,6 +250,7 @@ ecommerce-qa-automation/
 │   │   ├── test_auth.py
 │   │   ├── test_health.py
 │   │   └── test_products.py
+│   │
 │   └── requirements.txt
 │
 ├── ui-tests/
@@ -211,15 +272,15 @@ ecommerce-qa-automation/
 │   └── conftest.py
 │
 ├── reports/
-│   ├── api-report.html
-│   ├── ui-smoke-report.html
-│   └── ui-regression-report.html
 │
+├── .gitignore
 ├── pytest.ini
 ├── package.json
 ├── package-lock.json
 └── README.md
 ```
+
+Generated HTML reports and failure screenshots are excluded from Git version control and are generated automatically when the tests are executed.
 
 ---
 
@@ -264,15 +325,9 @@ pip install -r python-api-tests/requirements.txt
 playwright install chromium
 ```
 
-### 6. Install Node.js dependencies
-
-```bash
-npm install
-```
-
 ---
 
-## 🔌 Running Python API Tests
+## 🐍 Running Python API Tests
 
 Run all Python API tests:
 
@@ -286,11 +341,31 @@ Generate an HTML report:
 pytest python-api-tests/tests -v --html=reports/api-report.html --self-contained-html
 ```
 
+Collect API tests without executing them:
+
+```bash
+pytest python-api-tests/tests --collect-only -q
+```
+
+Current API suite:
+
+```text
+19 tests
+```
+
 ---
 
 ## 📮 Running Postman / Newman API Tests
 
-The project also contains a Postman API collection that can be executed from the command line using Newman.
+The project also contains a Postman API collection that can be executed using Newman.
+
+Install Node.js dependencies:
+
+```bash
+npm install
+```
+
+Run the Postman collection:
 
 ```bash
 npx newman run "api-tests/E-Commerce API Tests.postman_collection.json" -e "api-tests/DummyJSON - QA.postman_environment.json"
@@ -308,19 +383,37 @@ Run all UI tests:
 pytest ui-tests/tests -v
 ```
 
-Run tests with the browser visible:
+Run UI tests with the browser visible:
 
 ```bash
 pytest ui-tests/tests -v --headed
 ```
 
+Generate an HTML report:
+
+```bash
+pytest ui-tests/tests -v --html=reports/ui-report.html --self-contained-html
+```
+
+Collect UI tests without executing them:
+
+```bash
+pytest ui-tests/tests --collect-only -q
+```
+
+Current UI suite:
+
+```text
+22 tests
+```
+
 ---
 
-## 🏷 Smoke and Regression Tests
+## 🚦 Smoke and Regression Tests
 
-Pytest markers are used to separate the UI automation suite into different testing levels.
+Pytest markers are used to separate UI automation into different test suites.
 
-### Smoke tests
+### Smoke Tests
 
 Smoke tests verify the most critical application functionality.
 
@@ -330,9 +423,17 @@ Run locally:
 pytest ui-tests/tests -m smoke -v
 ```
 
-### Regression tests
+Generate a smoke test report:
 
-The regression suite executes the complete UI automation test suite.
+```bash
+pytest ui-tests/tests -m smoke -v --html=reports/ui-smoke-report.html --self-contained-html
+```
+
+Smoke tests are executed as a separate job in GitHub Actions.
+
+### Regression Tests
+
+Regression tests execute the broader UI automation suite.
 
 Run locally:
 
@@ -340,15 +441,21 @@ Run locally:
 pytest ui-tests/tests -m regression -v
 ```
 
-The regression marker is automatically applied to UI tests through the Pytest configuration.
+Generate a regression test report:
+
+```bash
+pytest ui-tests/tests -m regression -v --html=reports/ui-regression-report.html --self-contained-html
+```
+
+Regression tests are also executed as a separate CI job.
 
 ---
 
 ## 📸 Automatic Failure Screenshots
 
-The Playwright framework automatically captures a screenshot when a UI test fails.
+The Playwright test framework automatically captures screenshots when UI tests fail.
 
-Screenshots are stored in:
+Screenshots are stored locally in:
 
 ```text
 ui-tests/screenshots/
@@ -360,15 +467,25 @@ Example:
 test_successful_login[chromium].png
 ```
 
-When UI tests fail in GitHub Actions, screenshots are uploaded as artifacts to help diagnose the failure.
+Failure screenshots are excluded from Git version control.
 
-This provides additional debugging information without requiring the test to be reproduced locally first.
+When a UI test fails in GitHub Actions, screenshots are uploaded as CI artifacts for easier failure investigation.
+
+This provides additional diagnostic information without requiring the test to be reproduced locally first.
 
 ---
 
 ## 📊 Automated Test Reports
 
-The CI pipeline generates separate HTML reports for different automation layers.
+HTML reports are generated using **pytest-html**.
+
+Reports can be generated for:
+
+- Python API tests
+- UI smoke tests
+- UI regression tests
+
+Example report files:
 
 ```text
 reports/
@@ -377,108 +494,128 @@ reports/
 └── ui-regression-report.html
 ```
 
-The reports contain information such as:
+Reports include information such as:
 
 - Test name
 - Passed / failed status
 - Execution duration
 - Environment information
 - Failure details
+- Traceback information
 
-The reports are uploaded as **GitHub Actions artifacts** after CI execution.
+Generated reports are excluded from Git version control.
+
+During CI execution, reports are uploaded as **GitHub Actions artifacts**, allowing test results to be downloaded and inspected after each workflow run.
 
 ---
 
 ## ⚙️ Continuous Integration
 
-The project uses **GitHub Actions** for Continuous Integration.
-
-The workflow is automatically triggered on:
+The project uses **GitHub Actions** to automatically execute the automation suites on:
 
 - Pushes to `main`
 - Pull requests targeting `main`
 
-The pipeline is divided into **three independent jobs**:
+The CI workflow contains three independent test jobs:
 
-### 🔌 API Tests
-
-Executes:
-
-- Postman API tests using Newman
-- Python API tests using Requests and Pytest
-- API HTML report generation
-
-### 🚬 UI Smoke Tests
-
-Executes the most critical Playwright UI tests:
-
-```bash
-pytest ui-tests/tests -m smoke -v
+```text
+GitHub Actions
+│
+├── API Tests
+│
+├── UI Smoke Tests
+│
+└── UI Regression Tests
 ```
 
-The job also:
+### API Tests
 
-- Installs Chromium
-- Generates a smoke HTML report
-- Captures screenshots on failure
-- Uploads test artifacts
+The API job:
 
-### 🔄 UI Regression Tests
+1. Checks out the repository
+2. Sets up Node.js
+3. Installs Node dependencies
+4. Executes the Postman collection using Newman
+5. Sets up Python
+6. Installs Python dependencies
+7. Executes Python API tests
+8. Generates an API HTML report
+9. Uploads the report as a GitHub Actions artifact
 
-Executes the complete Playwright regression suite:
+### UI Smoke Tests
 
-```bash
-pytest ui-tests/tests -m regression -v
-```
+The smoke job:
 
-The job also:
+1. Checks out the repository
+2. Sets up Python
+3. Installs Python dependencies
+4. Installs Chromium for Playwright
+5. Executes tests marked as `smoke`
+6. Generates an HTML report
+7. Uploads failure screenshots when necessary
+8. Uploads the smoke HTML report as an artifact
 
-- Installs Chromium
-- Generates a regression HTML report
-- Captures screenshots on failure
-- Uploads test artifacts
+### UI Regression Tests
 
-The three jobs execute independently, allowing API, smoke and regression results to be analyzed separately.
+The regression job:
+
+1. Checks out the repository
+2. Sets up Python
+3. Installs Python dependencies
+4. Installs Chromium for Playwright
+5. Executes tests marked as `regression`
+6. Generates an HTML report
+7. Uploads failure screenshots when necessary
+8. Uploads the regression HTML report as an artifact
+
+Separating the suites into independent jobs makes CI results easier to understand and allows the test suites to execute independently.
 
 ---
 
-## 🔁 CI Workflow Overview
+## 📦 GitHub Actions Artifacts
+
+After a CI run, GitHub Actions provides test artifacts containing generated reports.
+
+Depending on the executed workflow, artifacts can include:
 
 ```text
-                    Git Push / Pull Request
-                              │
-                              ▼
-                       GitHub Actions
-                              │
-              ┌───────────────┼───────────────┐
-              │               │               │
-              ▼               ▼               ▼
-          API Tests       UI Smoke        UI Regression
-              │               │               │
-        ┌─────┴─────┐      Playwright       Playwright
-        │           │          │               │
-     Newman       Pytest    Smoke Tests     Full Suite
-        │           │          │               │
-        └─────┬─────┘          │               │
-              │                │               │
-              ▼                ▼               ▼
-          API Report       Smoke Report    Regression Report
+api-test-report
+ui-smoke-report
+ui-regression-report
+smoke-failure-screenshots
+regression-failure-screenshots
 ```
 
-This structure simulates a real-world automation pipeline where different testing layers can execute independently.
+Failure screenshot artifacts are created only when corresponding UI tests fail.
 
 ---
 
 ## 📈 Current Automation Suite
 
+The project currently contains:
+
 | Test Layer | Technology | Automated Tests |
 |---|---|---:|
 | API | Python + Requests + Pytest | 19 |
-| UI | Playwright + Python + Pytest | 22 |
+| UI | Playwright + Pytest | 22 |
 | API | Postman + Newman | Automated collection |
-| **Total Python tests** | **Pytest** | **41** |
+| **Total Pytest tests** | **Python + Pytest** | **41** |
 
 The project demonstrates automation across multiple testing layers rather than focusing only on individual test cases.
+
+---
+
+## 🔍 Example CI Execution
+
+A successful GitHub Actions workflow executes three independent jobs:
+
+```text
+✓ API Tests
+✓ UI Smoke Tests
+✓ UI Regression Tests
+```
+
+Each job provides an independent result, making it easier to identify whether a failure occurred in the API, smoke or regression automation layer.
 
 ---
 
@@ -486,22 +623,71 @@ The project demonstrates automation across multiple testing layers rather than f
 
 This project was created as a **QA Automation portfolio project** to demonstrate practical experience with:
 
-- API test automation
-- UI test automation
-- Python test development
-- Playwright
+- Python test automation
+- REST API automation
+- UI automation
 - Pytest
 - Requests
-- REST API testing
-- Postman and Newman
+- Playwright
+- Postman
+- Newman
 - Page Object Model
-- Positive and negative test scenarios
+- Positive and negative testing
 - Parameterized testing
-- Smoke and regression testing
-- CI pipelines
-- Automated reporting
+- Smoke testing
+- Regression testing
+- End-to-end test scenarios
+- Test data validation
+- Automated HTML reporting
 - Failure diagnostics
+- GitHub Actions
+- Continuous Integration
 - Git and GitHub workflows
+
+The goal of the project is to demonstrate the structure and practices used in a real automation testing project rather than only presenting isolated automation scripts.
+
+---
+
+## 🚀 Skills Demonstrated
+
+Through this project, the following QA Automation skills are demonstrated:
+
+**Test Automation**
+- Designing automated test cases
+- Creating reusable test code
+- Building API and UI automation suites
+- Organizing smoke and regression suites
+
+**Python**
+- Pytest fixtures
+- Assertions
+- Parameterization
+- HTTP requests
+- Test organization
+
+**API Testing**
+- REST API testing
+- HTTP methods
+- Status code validation
+- JSON response validation
+- Authentication testing
+- Negative API testing
+
+**UI Testing**
+- Browser automation with Playwright
+- Page Object Model
+- Form validation
+- User flow automation
+- Product and cart interactions
+- Checkout automation
+
+**CI/CD**
+- GitHub Actions workflows
+- Automated test execution
+- Independent CI jobs
+- HTML report generation
+- Artifact management
+- Failure screenshot collection
 
 ---
 
@@ -509,4 +695,6 @@ This project was created as a **QA Automation portfolio project** to demonstrate
 
 **Oskar Hermanowski**
 
-QA / Software Tester developing practical skills in test automation with **Python, Pytest, Playwright and API testing**.
+QA / Software Tester developing practical skills in test automation with **Python, Pytest, Playwright, Requests, API testing and CI/CD**.
+
+GitHub: [oskarhermanowski](https://github.com/oskarhermanowski)
