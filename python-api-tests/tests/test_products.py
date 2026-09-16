@@ -71,7 +71,7 @@ def test_create_product(api_base_url):
         json=payload
     )
 
-    assert response.status_code ==201
+    assert response.status_code == 201
 
     data = response.json()
 
