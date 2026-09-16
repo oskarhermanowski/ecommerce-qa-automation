@@ -6,22 +6,17 @@ from pages.inventory_page import InventoryPage
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
 
-def test_complete_checkout(page: Page):
-    login_page = LoginPage(page)
-    inventory_page = InventoryPage(page)
-    cart_page = CartPage(page)
-    checkout_page = CheckoutPage(page)
-
-    # Login
-    login_page.open()
-    login_page.login("standard_user", "secret_sauce")
+def test_complete_checkout(logged_in_page: Page):
+    inventory_page = InventoryPage(logged_in_page)
+    cart_page = CartPage(logged_in_page)
+    checkout_page = CheckoutPage(logged_in_page)
 
     # Add product
     inventory_page.add_backpack_to_cart()
 
     # Open cart
     inventory_page.open_cart()
-    expect(page).to_have_url("https://www.saucedemo.com/cart.html")
+    expect(logged_in_page).to_have_url("https://www.saucedemo.com/cart.html")
     expect(cart_page.product_name).to_have_text("Sauce Labs Backpack")
 
     # Checkout
@@ -49,20 +44,16 @@ def test_complete_checkout(page: Page):
     ],
 )
 
-def test_chechkout_validation_error(
-    page: Page,
+def test_checkout_validation_error(
+    logged_in_page: Page,
     first_name,
     last_name,
     postal_code,
     expected_message,
 ):
-    login_page = LoginPage(page)
-    inventory_page = InventoryPage(page)
-    cart_page = CartPage(page)
-    checkout_page = CheckoutPage(page)
-
-    login_page.open()
-    login_page.login("standard_user", "secret_sauce")
+    inventory_page = InventoryPage(logged_in_page)
+    cart_page = CartPage(logged_in_page)
+    checkout_page = CheckoutPage(logged_in_page)
 
     inventory_page.add_backpack_to_cart()
     inventory_page.open_cart()
@@ -79,14 +70,10 @@ def test_chechkout_validation_error(
 
     expect(checkout_page.error_message).to_have_text(expected_message)
 
-def test_checkout_price_summary(page: Page):
-    login_page = LoginPage(page)
-    inventory_page = InventoryPage(page)
-    cart_page = CartPage(page)
-    checkout_page = CheckoutPage(page)
-
-    login_page.open()
-    login_page.login("standard_user", "secret_sauce")
+def test_checkout_price_summary(logged_in_page: Page):
+    inventory_page = InventoryPage(logged_in_page)
+    cart_page = CartPage(logged_in_page)
+    checkout_page = CheckoutPage(logged_in_page)
 
     inventory_page.add_backpack_to_cart()
     inventory_page.open_cart()
@@ -106,14 +93,10 @@ def test_checkout_price_summary(page: Page):
     expect(checkout_page.tax).to_have_text("Tax: $2.40")
     expect(checkout_page.total).to_have_text("Total: $32.39")
 
-def test_checkout_total_calculation(page: Page):
-    login_page = LoginPage(page)
-    inventory_page = InventoryPage(page)
-    cart_page = CartPage(page)
-    checkout_page = CheckoutPage(page)
-
-    login_page.open()
-    login_page.login("standard_user", "secret_sauce")
+def test_checkout_total_calculation(logged_in_page: Page):
+    inventory_page = InventoryPage(logged_in_page)
+    cart_page = CartPage(logged_in_page)
+    checkout_page = CheckoutPage(logged_in_page)
 
     inventory_page.add_backpack_to_cart()
     inventory_page.open_cart()

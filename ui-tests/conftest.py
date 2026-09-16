@@ -6,6 +6,8 @@ import pytest
 UI_TESTS_DIR = Path(__file__).resolve().parent
 sys.path.append(str(UI_TESTS_DIR))
 
+from pages.login_page import LoginPage
+
 
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
@@ -25,3 +27,12 @@ def pytest_runtest_makereport(item, call):
                 path=str(screenshot_path),
                 full_page=True
             )
+
+@pytest.fixture
+def logged_in_page(page):
+    login_page = LoginPage(page)
+
+    login_page.open()
+    login_page.login("standard_user", "secret_sauce")
+
+    return page
