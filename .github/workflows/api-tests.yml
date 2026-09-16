@@ -1,4 +1,4 @@
-name: API Tests
+name: QA Automation Tests
 
 on:
   push:
@@ -9,7 +9,9 @@ on:
       - main
 
 jobs:
+
   api-tests:
+    name: API Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -21,10 +23,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install dependencies
+      - name: Install Node dependencies
         run: npm ci
 
-      - name: Run API tests with Newman
+      - name: Run Postman API tests with Newman
         run: >
           npx newman run "api-tests/E-Commerce API Tests.postman_collection.json"
           -e "api-tests/DummyJSON - QA.postman_environment.json"
@@ -41,22 +43,8 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r python-api-tests/requirements.txt
 
-      - name: Install Playwright browser
-        run: playwright install --with-deps chromium
-
       - name: Run Python API tests
         run: pytest python-api-tests/tests -v --html=reports/api-report.html --self-contained-html
-
-      - name: Run Playwright UI tests
-        run: pytest ui-tests/tests -v --html=repots/ui-report.html --self-contained-html
-
-      - name: Upload Playwright failure screenshots
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: playwright-failure-screenshots
-          path: ui-tests/screenshots/
-          if-no-files-found: ignore
 
       - name: Upload API HTML report
         uses: actions/upload-artifact@v4
@@ -65,9 +53,78 @@ jobs:
           name: api-test-report
           path: reports/api-report.html
 
-      - name: Upload UI HTML report
+
+  ui-smoke-tests:
+    name: UI Smoke Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install Python dependencies
+        run: pip install -r python-api-tests/requirements.txt
+
+      - name: Install Playwright browser
+        run: playwright install --with-deps chromium
+
+      - name: Run UI Smoke Tests
+        run: pytest ui-tests/tests -m smoke -v --html=reports/ui-smoke-report.html --self-contained-html
+
+      - name: Upload Playwright failure screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: smoke-failure-screenshots
+          path: ui-tests/screenshots/
+          if-no-files-found: ignore
+
+      - name: Upload UI Smoke HTML report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ui-test-report
-          path: reports/ui-report.html
+          name: ui-smoke-report
+          path: reports/ui-smoke-report.html
+
+
+  ui-regression-tests:
+    name: UI Regression Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install Python dependencies
+        run: pip install -r python-api-tests/requirements.txt
+
+      - name: Install Playwright browser
+        run: playwright install --with-deps chromium
+
+      - name: Run UI Regression Tests
+        run: pytest ui-tests/tests -m regression -v --html=reports/ui-regression-report.html --self-contained-html
+
+      - name: Upload Playwright failure screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: regression-failure-screenshots
+          path: ui-tests/screenshots/
+          if-no-files-found: ignore
+
+      - name: Upload UI Regression HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-regression-report
+          path: reports/ui-regression-report.html
