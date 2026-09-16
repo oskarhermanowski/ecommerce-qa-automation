@@ -1,7 +1,9 @@
+import pytest
 from playwright.sync_api import Page, expect
 
 from pages.inventory_page import InventoryPage
 
+@pytest.mark.smoke
 def test_add_product_to_cart(logged_in_page: Page):
     inventory_page = InventoryPage(logged_in_page)
 
@@ -44,7 +46,7 @@ def test_sort_products_name_a_to_z(logged_in_page: Page):
 
 def test_sort_products_name_z_to_a(logged_in_page: Page):
     inventory_page = InventoryPage(logged_in_page)
-    
+
     inventory_page.sort_products("za")
 
     names = inventory_page.get_product_names()

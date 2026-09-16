@@ -2,7 +2,7 @@ from playwright.sync_api import Page, expect
 from pages.login_page import LoginPage
 import pytest
 
-
+@pytest.mark.smoke
 def test_successful_login(page: Page):
     login_page = LoginPage(page)
 

@@ -1,5 +1,7 @@
+import pytest
 from playwright.sync_api import Page, expect
 
+@pytest.mark.smoke
 def test_homepage_loads(page: Page):
     page.goto("https://www.saucedemo.com/")
 
