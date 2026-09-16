@@ -1,3 +1,4 @@
+import pytest
 import sys
 from pathlib import Path
 
@@ -36,3 +37,7 @@ def logged_in_page(page):
     login_page.login("standard_user", "secret_sauce")
 
     return page
+
+def pytest_collection_modifyitems(items):
+    for item in items:
+        item.add_marker(pytest.mark.regression)
